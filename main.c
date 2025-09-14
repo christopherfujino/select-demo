@@ -19,14 +19,15 @@ int main() {
   char buf[BUFSIZ] = {0};
 
   fd_set set;
-  FD_ZERO(&set);
-  FD_SET(pipes.out, &set);
-  FD_SET(pipes.err, &set);
   int max_fd = ((pipes.out > pipes.err) ? pipes.out : pipes.err);
 
   printf("pipes = (%d, %d)\tmax_fd = %d\n", pipes.out, pipes.err, max_fd);
 
   while (1) {
+    FD_ZERO(&set);
+    FD_SET(pipes.out, &set);
+    FD_SET(pipes.err, &set);
+
     int fd = do_select(pipes, &set, max_fd);
     ssize_t bytes_read = read(fd, buf, BUFSIZ);
     if (bytes_read == 0) {
@@ -36,7 +37,7 @@ int main() {
       printf("%s\n", buf);
     }
 
-    //buf[0] = '\0';
+    // buf[0] = '\0';
   }
   return 0;
 }

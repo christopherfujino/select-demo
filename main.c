@@ -76,7 +76,7 @@ Pipes run() {
   };
 }
 
-static const int timeout_secs = 4;
+static const int timeout_secs = 1;
 
 int do_select(Pipes pipes, fd_set *set, int max_fd) {
   // Note, select will mutate this struct
